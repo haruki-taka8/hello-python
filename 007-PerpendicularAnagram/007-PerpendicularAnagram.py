@@ -1,4 +1,4 @@
-# 007-Hangman.py
+# 007-PerpendicularAnagram.py
 # > im useless
 #             I   m useless
 #         i   M    useless
