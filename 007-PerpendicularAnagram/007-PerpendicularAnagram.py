@@ -13,11 +13,10 @@
 
 import math
 inp = input('> ')
+x = len(inp)
 
-for i in range(len(inp), 0, -1):
-    toPrint = inp
-    sep = ' ' * math.floor(math.sqrt(len(inp)))
-    toPrint = toPrint[:len(inp)-i] + sep + toPrint[len(inp)-i].capitalize() + sep + toPrint[len(inp)-i+1:]
+for i in range(x, 0, -1):
+    sep = ' ' * math.floor(math.sqrt(x))
+    toPrint = inp[:x-i] + sep + inp[x-i].capitalize() + sep + inp[x-i+1:]
 
-    print(' '*(i-1), end='')
-    print(toPrint)
+    print(' '*i, toPrint)
