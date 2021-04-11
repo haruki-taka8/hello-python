@@ -31,7 +31,7 @@ while '_' in display:
     # Evaluate input
     for i in range(len(toGuess)):
         if guess.lower() == toGuess[i].lower():
-            display = display[:i] + guess + display[i+1:]
+            display = display[:i] + toGuess[i] + display[i+1:]
 
 # Game win screen
 os.system('cls' if os.name=='nt' else 'clear')
