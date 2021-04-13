@@ -1,5 +1,5 @@
 ## hello-python
-~~The repository records my Python 3 learning journey.~~
+~~The repository records my Python 3 learning journey.~~\
 The repository records my journey of playing around with Python 3.
 
 ## Repository Structure
