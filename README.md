@@ -11,6 +11,4 @@ It is named in the format of `ID-Name`, where
 * Name is a short description of the project.
 
 ### Per Project File
-Each main code file is named with the convention of `ID<-Revision>-Name.py`, where
-
-* Revision is an optional string in the format of `rX` and X is an integer from 0 to 9.
+Each main code file is named with the convention of `ID-Name.py`.
