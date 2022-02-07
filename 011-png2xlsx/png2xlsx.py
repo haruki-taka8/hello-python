@@ -1,5 +1,4 @@
 import os
-import re
 from PIL import Image
 import openpyxl
 from openpyxl.styles import PatternFill
@@ -11,7 +10,6 @@ while (not os.path.isfile(pngPath)):
 png = Image.open(pngPath)
 print('PNG Size    = ' + str(png.width) + 'x' + str(png.height))
 
-print()
 scale = input('Output % (default 1) = ')
 try:
     scale = int(scale)
@@ -19,35 +17,44 @@ except ValueError:
     scale = 1
 
 output = input('Output XLSX          = ')
+
+NTFSREPLACEMENT = ['\\', '/', ':', '*', '?', '"', '<', '>', '|']
 if output == '':
-    output = 'png2xslx-'+re.sub(r'[\/?<>\\:*|"]', '', pngPath)+'.xlsx'
-print()
+    output = pngPath
+    for char in NTFSREPLACEMENT:
+        if char in output:
+            output = output.replace(char, '')
+    output = 'png2xslx-'+output+'.xlsx'
 
 
 # Resize image
-scale = max(1, min(scale, 100))
-png = png.convert("RGB")
-png = png.resize((int(png.width * scale / 100), int(png.height * scale / 100)))
+print('Scaling PNG')
+scale = max(1, min(scale, 100))/100
+png = png.convert("RGBA")
+png = png.resize((int(png.width * scale), int(png.height * scale)))
 pixel = png.load()
 
 xls = openpyxl.Workbook()
 ws = xls.active
-ws.title = re.sub(r'[\/?<>\\:*|"]', '', pngPath)
+ws.title = output
 
 # Color everything
-print('Coloring...')
+print('Coloring XLSX')
 for y in range(png.height):
     for x in range(png.width):
-        print(str(round((y*x+x)/(png.width*png.height)*100,0))+'%')
-        ws.cell(row=y+1, column=x+1).fill = PatternFill(fgColor=('FF%02x%02x%02x' % pixel[x,y]), fill_type="solid")
+        ThisCell = ws.cell(row=y+1, column=x+1)
+        r, g, b, a = pixel[x,y]
+        ThisFill = f"{a:02x}{r:02x}{g:02x}{b:02x}"
+
+        ThisCell.fill = PatternFill(fgColor=ThisFill, fill_type="solid")
 
 # Resize cells to square pixels
-print('Resizing...')
+print('Resizing XLSX')
 for col in range(png.width):
-    ws.column_dimensions[openpyxl.utils.cell.get_column_letter(col+1)].width = 0.825
+    ws.column_dimensions[openpyxl.utils.cell.get_column_letter(col+1)].width = 1
 
 for row in range(png.height):
-    ws.row_dimensions[row+1].height = 4
+    ws.row_dimensions[row+1].height = 5.25
 
 # End
 xls.save(output)
