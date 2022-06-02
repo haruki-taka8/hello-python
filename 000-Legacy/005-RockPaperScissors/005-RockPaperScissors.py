@@ -3,11 +3,9 @@
 # I had to reproduce it in Python
 
 import random
+userInput = ''
 
-while True:
+while not (userInput.lower() in ['rock', 'paper', 'scissors']):
     userInput = input('Rock, paper or scissors: ')
-
-    if userInput.lower() in ['rock', 'paper', 'scissors']:
-        break
 
 print(random.choice(['You\'ve won!', 'You\'ve lost!', 'It\'s a tie!']))
